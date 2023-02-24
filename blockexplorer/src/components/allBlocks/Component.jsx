@@ -81,9 +81,8 @@ const AllBlocksComp = ({
                     (Date.now() - item.timestamp * 1000) / (1000 * 60 * 60 * 24)
                   )}{" "}
                   days{" "}
-                  {parseInt(
-                    (Date.now() - item.timestamp * 1000) / (1000 * 60 * 60)
-                  ) % 24}{" "}
+                  {parseInt((Date.now() - item.timestamp) / (1000 * 60 * 60)) %
+                    24}{" "}
                   hours ago
                 </td>
               ) : parseInt(

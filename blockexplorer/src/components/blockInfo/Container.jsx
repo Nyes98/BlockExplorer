@@ -23,7 +23,11 @@ const BlockInfoContainer = () => {
     setBlockInfo(result.data.data);
 
     let agoDate = parseInt(Date.now() - +result.data.data.timestamp * 1000);
-
+    console.log(result.data.data.timestamp * 1000);
+    console.log(Date.now());
+    console.log(
+      (Date.now() - result.data.data.timestamp * 1000) / 1000 / 60 / 60 / 24
+    );
     setSecond(parseInt(agoDate / 1000) % 60);
     setMinute(parseInt(agoDate / (60 * 1000)) % 60);
     setHour(parseInt(agoDate / (60 * 1000 * 60)) % 24);

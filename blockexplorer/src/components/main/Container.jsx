@@ -96,6 +96,7 @@ const MainContainer = () => {
 
   useEffect(() => {
     getRecentBlock();
+    getAllBlock();
   }, []);
 
   return (

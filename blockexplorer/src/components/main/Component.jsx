@@ -1,6 +1,7 @@
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import SearchErrorMordalContainer from "../mordal/searchError/Container";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const MainComp = ({
   blockInfo,
@@ -28,8 +29,7 @@ const MainComp = ({
       ) : (
         <></>
       )}
-      <MainBackgroud></MainBackgroud>
-
+      <MainBackgroud></MainBackgroud>;
       <ContentsBox>
         <SearchBox>
           <div>The Optimism Explorer</div>
@@ -131,8 +131,41 @@ const MainComp = ({
                   </TxnsTime>
                 </ValidInfo>
                 <GasInfo>
-                  <div>UsedGas</div>
-                  <div>{item.gasUsed}</div>
+                  <div>
+                    {(((item.gasUsed / item.gasLimit) * 100).toFixed(2) * 100) %
+                      10 ==
+                    0 ? (
+                      (((item.gasUsed / item.gasLimit) * 100).toFixed(2) *
+                        100) %
+                        100 ==
+                      0 ? (
+                        <div>
+                          {((item.gasUsed / item.gasLimit) * 100).toFixed(0)}%
+                        </div>
+                      ) : (
+                        <div>
+                          {((item.gasUsed / item.gasLimit) * 100).toFixed(1)}%
+                        </div>
+                      )
+                    ) : (
+                      <div>
+                        {((item.gasUsed / item.gasLimit) * 100).toFixed(2)}
+                      </div>
+                    )}
+                  </div>
+                  <CircularProgressbar
+                    value={((item.gasUsed / item.gasLimit) * 100).toFixed(2)}
+                    strokeWidth={10}
+                    styles={{
+                      text: {
+                        fill: "#333333",
+                        fontsize: "12px",
+                      },
+                    }}
+                  >
+                    dgdgd
+                    <div>gd</div>
+                  </CircularProgressbar>
                 </GasInfo>
               </InfoContentsBox>
             ))}
@@ -428,7 +461,17 @@ const TxnsTime = styled.div`
 `;
 
 const GasInfo = styled.div`
-  & > :nth-child(2) {
-    color: #8247e7;
+  display: flex;
+  justify-content: flex-end;
+  width: 15%;
+
+  div:first-child {
+    padding-top: 5px;
+    padding-right: 5px;
+  }
+
+  & > :last-child {
+    display: flex;
+    width: 50%;
   }
 `;

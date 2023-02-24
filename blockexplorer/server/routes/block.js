@@ -5,22 +5,15 @@ const db = require("../models/index.js");
 
 const { Block, Transaction } = require("../models");
 
-const request = axios.create({
-  method: "POST",
-  baseURL: "http://localhost:8080",
-  headers: {
-    "content-type": "application/json",
-  },
-});
-
 const web3 = new Web3(
   new Web3.providers.WebsocketProvider("ws://localhost:8082")
 );
 
-const allBlock = async () => {
+const allBlock = async (dbnumber) => {
   const latestBlock = await web3.eth.getBlock("latest");
+  console.log("latestBlock", latestBlock.number);
 
-  for (let i = 0; i <= latestBlock.number; i++) {
+  for (let i = +dbnumber + 1; i <= latestBlock.number; i++) {
     let data = await web3.eth.getBlock(i);
     const newBlock = await Block.create(data);
     for (let j = 0; j < data.transactions.length; j++) {
@@ -49,10 +42,12 @@ web3.eth.subscribe("newBlockHeaders", async (error, result) => {
 
 router.post("/all", async (req, res) => {
   try {
-    const block = await Block.findAll();
-    if (block != 0) return;
+    const block = await Block.findOne({
+      order: [["id", "DESC"]],
+    });
 
-    allBlock();
+    console.log("이거냐", block.number);
+    allBlock(block.number);
 
     res.send({ isError: false, data: block });
   } catch (error) {
