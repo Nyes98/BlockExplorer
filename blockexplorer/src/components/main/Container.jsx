@@ -84,19 +84,22 @@ const MainContainer = () => {
   };
 
   const getAllBlock = async () => {
+    console.log("여기");
     const result = await callAllBlock();
+    console.log("허허ㅗ", result);
   };
 
   const getRecentBlock = async () => {
     const result = await callRecentBlock();
+    console.log(result);
     setBlockInfo(result.data.data);
     setTxInfo(result.data.trans);
-    setLatestBlock(result.data.data[0].number);
+    setLatestBlock(result?.data.data[0].number);
   };
 
   useEffect(() => {
-    getRecentBlock();
     getAllBlock();
+    getRecentBlock();
   }, []);
 
   return (

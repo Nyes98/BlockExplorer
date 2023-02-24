@@ -41,16 +41,18 @@ web3.eth.subscribe("newBlockHeaders", async (error, result) => {
 });
 
 router.post("/all", async (req, res) => {
+  console.log("다와요");
   try {
     const block = await Block.findOne({
       order: [["id", "DESC"]],
     });
 
-    console.log("이거냐", block.number);
-    allBlock(block.number);
+    if (block) allBlock(block.number);
+    else allBlock(0);
 
     res.send({ isError: false, data: block });
   } catch (error) {
+    console.log(error);
     res.send({ isError: true });
   }
 });
